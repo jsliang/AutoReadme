@@ -8,18 +8,8 @@
     <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="github-files/src/main/javascript/github-files.js"></script>
     <script src="showdown/src/showdown.js"></script>
-    <script>
-    $(document).ready(function(){
-      var converter = new Showdown.converter();
-
-      // fetch this README.md file and turn the markdown to HTML
-      $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", function(contents) {
-        $("body").html(converter.makeHtml(contents));
-
-        $(document).attr('title', $("h1:first").text());
-      });
-    });
-    </script>
+    <script src="nunjucks/browser/nunjucks-dev.js"></script>
+    <script src="autoreadme.js"></script>
   </head>
   <body>
   </body>
