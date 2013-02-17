@@ -1,9 +1,9 @@
-[submodule "showdown"]
-	path = showdown
-	url = https://github.com/coreyti/showdown.git
 [submodule "nunjucks"]
 	path = nunjucks
 	url = https://github.com/jlongster/nunjucks.git
 [submodule "highlight"]
 	path = highlight
 	url = https://github.com/isagalaev/highlight.js
+[submodule "showdown"]
+	path = showdown
+	url = git@github.com:jsliang/showdown.git
