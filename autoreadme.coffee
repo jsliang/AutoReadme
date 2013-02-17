@@ -73,12 +73,17 @@ $.fn.extend
                 }
                 container.html( tmpl.render(templ_variables) )
 
-            # fetch README.md file and turn the markdown to HTML
-            ###
-            $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", (contents) ->
-                $(this).html(converter.makeHtml(contents))
-                $(document).attr('title', $("h1:first").text())
-            )
-            ###
-            convert_markdown_to_html()
-            apply_template()
+            # fetch README.md file
+            $.ajax
+              type: "GET"
+              url: "https://api.github.com/repos/jsliang/sublime-pelican/contents/README.md"
+              dataType: "jsonp"
+              success: (data) ->
+                if data.data.encoding is "base64"
+                    decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""))
+                    container.text(decoded_content)
+
+                    $(document).attr('title', $("h1:first").text())
+
+                    convert_markdown_to_html()
+                    apply_template()

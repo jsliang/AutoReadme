@@ -84,15 +84,21 @@ Licensed under GPL v2.
           };
           return container.html(tmpl.render(templ_variables));
         };
-        /*
-                    $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", (contents) ->
-                        $(this).html(converter.makeHtml(contents))
-                        $(document).attr('title', $("h1:first").text())
-                    )
-        */
-
-        convert_markdown_to_html();
-        return apply_template();
+        return $.ajax({
+          type: "GET",
+          url: "https://api.github.com/repos/jsliang/sublime-pelican/contents/README.md",
+          dataType: "jsonp",
+          success: function(data) {
+            var decoded_content;
+            if (data.data.encoding === "base64") {
+              decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""));
+              container.text(decoded_content);
+              $(document).attr('title', $("h1:first").text());
+              convert_markdown_to_html();
+              return apply_template();
+            }
+          }
+        });
       });
     }
   });
