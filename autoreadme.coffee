@@ -12,6 +12,9 @@ $ = jQuery
 
 generate_template = () ->
     template_str = '
+<a href="http://github.com/{{ username }}/{{ repository }}">
+    <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" />
+</a>
 <div id="TOC">
     <h1>{{ name }}</h1>
     <ul>
@@ -71,6 +74,7 @@ $.fn.extend
                     headings: h2_headings,
                     contents: container.html()
                 }
+                templ_variables = $.extend(templ_variables, options)
                 container.html( tmpl.render(templ_variables) )
 
             # fetch README.md file
@@ -84,6 +88,7 @@ $.fn.extend
               success: (data) ->
                 if data.data.encoding is "base64"
                     decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""))
+                    decoded_content = decoded_content.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
                     container.text(decoded_content)
 
                     $(document).attr('title', $("h1:first").text())
