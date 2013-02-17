@@ -41,9 +41,9 @@ Licensed under GPL v2.
   };
 
   $.fn.extend({
-    autoReadme: function() {
+    autoReadme: function(options) {
       return this.each(function() {
-        var apply_template, container, convert_markdown_to_html;
+        var apply_template, container, convert_markdown_to_html, filename, repository, username;
         container = $(this);
         convert_markdown_to_html = function() {
           var contents, converter;
@@ -84,9 +84,12 @@ Licensed under GPL v2.
           };
           return container.html(tmpl.render(templ_variables));
         };
+        username = options.username;
+        repository = options.repository;
+        filename = options.filename;
         return $.ajax({
           type: "GET",
-          url: "https://api.github.com/repos/jsliang/sublime-pelican/contents/README.md",
+          url: "https://api.github.com/repos/" + username + "/" + repository + "/contents/" + filename,
           dataType: "jsonp",
           success: function(data) {
             var decoded_content;

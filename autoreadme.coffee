@@ -34,7 +34,7 @@ generate_template = () ->
     return template_str
 
 $.fn.extend
-    autoReadme: () ->
+    autoReadme: ( options ) ->
         this.each ()->
             container = $(this)
 
@@ -74,9 +74,12 @@ $.fn.extend
                 container.html( tmpl.render(templ_variables) )
 
             # fetch README.md file
+            username = options.username
+            repository = options.repository
+            filename = options.filename
             $.ajax
               type: "GET"
-              url: "https://api.github.com/repos/jsliang/sublime-pelican/contents/README.md"
+              url: "https://api.github.com/repos/#{username}/#{repository}/contents/#{filename}"
               dataType: "jsonp"
               success: (data) ->
                 if data.data.encoding is "base64"
