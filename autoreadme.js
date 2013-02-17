@@ -61,10 +61,14 @@ Licensed under GPL v2.
             return h2_headings.push(heading);
           });
           templ_variables = {
-            name: "SublimePelican",
             headings: h2_headings,
             contents: container.html()
           };
+          if ((options != null) && !(options.name != null) && (options.repository != null)) {
+            templ_variables.name = options.repository;
+          } else {
+            templ_variables.name = '';
+          }
           templ_variables = $.extend(templ_variables, options);
           return container.html(tmpl.render(templ_variables));
         };
