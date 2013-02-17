@@ -7,7 +7,7 @@ AutoReadme
 *   inspired by [DocumentUp](http://documentup.com/)
 *   [showdown](https://github.com/coreyti/showdown) for Markdown to HTML conversion
 *   [Nunjucks](http://nunjucks.jlongster.com/) for templating
-*   [hightlight.js](http://softwaremaniacs.org/soft/highlight/) for code syntax highlighting
+*   [highlight.js](http://softwaremaniacs.org/soft/highlight/) for code syntax highlighting
 
 
 ## License
