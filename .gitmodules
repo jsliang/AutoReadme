@@ -1,3 +1,6 @@
 [submodule "github-files"]
 	path = github-files
 	url = https://github.com/jamesward/github-files
+[submodule "showdown"]
+	path = showdown
+	url = https://github.com/coreyti/showdown.git
