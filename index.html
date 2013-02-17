@@ -10,6 +10,32 @@
   <body>
     <div id="container"></div>
 
+    <section id="template">
+        <section id="default">
+            <a href="http://github.com/{{ username }}/{{ repository }}">
+                <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" />
+            </a>
+            <div id="TOC">
+                <h1>{{ name }}</h1>
+                <ul>
+                {% for heading in headings %}
+                <li>
+                    <a href="#{{ heading.id }}">{{ heading.text }}</a>
+                    <ul>
+                    {% for subheading in heading.subheadings %}
+                    <li>
+                        <a href="#{{ subheading.id }}">{{ subheading.text }}</a>
+                    </li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div id="content">{{ contents }}</div>
+        </section>
+    </section>
+
     <script src="http://code.jquery.com/jquery.min.js"></script>
     <script src="showdown/src/showdown.js"></script>
     <script src="nunjucks/browser/nunjucks-dev.js"></script>
@@ -18,7 +44,7 @@
     <script src="autoreadme.js"></script>
     <script>
     $(document).ready(function() {
-        $("#container").autoReadme( { username: "jsliang", repository: "sublime-pelican", filename: "README.md" } );
+        $("#container").autoReadme( { username: "jsliang", repository: "sublime-pelican", filename: "README.md", template: "default" } );
     });
     </script>
   </body>

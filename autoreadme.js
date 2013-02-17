@@ -11,40 +11,16 @@ Licensed under GPL v2.
 
 
 (function() {
-  var $, generate_template;
+  var $;
 
   $ = jQuery;
 
-  generate_template = function() {
-    var template_str;
-    template_str = '\
-<a href="http://github.com/{{ username }}/{{ repository }}">\
-    <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" />\
-</a>\
-<div id="TOC">\
-    <h1>{{ name }}</h1>\
-    <ul>\
-    {% for heading in headings %}\
-    <li>\
-        <a href="#{{ heading.id }}">{{ heading.text }}</a>\
-        <ul>\
-        {% for subheading in heading.subheadings %}\
-        <li>\
-            <a href="#{{ subheading.id }}">{{ subheading.text }}</a>\
-        </li>\
-        {% endfor %}\
-        </ul>\
-    </li>\
-    {% endfor %}\
-    </ul>\
-</div>\
-<div id="content">{{ contents }}</div>\
-';
-    return template_str;
-  };
-
   $.fn.extend({
     autoReadme: function(options) {
+      var template, template_str;
+      template = options.template;
+      template_str = $("#template #" + template).html();
+      $("#template").hide();
       return this.each(function() {
         var apply_template, container, convert_markdown_to_html, filename, repository, username;
         container = $(this);
@@ -57,7 +33,7 @@ Licensed under GPL v2.
         apply_template = function() {
           var env, h2_headings, templ_variables, tmpl;
           env = new nunjucks.Environment();
-          tmpl = new nunjucks.Template(generate_template());
+          tmpl = new nunjucks.Template(template_str);
           h2_headings = [];
           $("h2").each(function() {
             var h3_headings, heading, subheading_elements;
@@ -97,14 +73,12 @@ Licensed under GPL v2.
           dataType: "jsonp",
           success: function(data) {
             var decoded_content;
-            if (data.data.encoding === "base64") {
-              decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""));
-              decoded_content = decoded_content.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-              container.text(decoded_content);
-              $(document).attr('title', $("h1:first").text());
-              convert_markdown_to_html();
-              return apply_template();
-            }
+            decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""));
+            decoded_content = decoded_content.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+            container.text(decoded_content);
+            convert_markdown_to_html();
+            $(document).attr('title', container.find("h1:first").text());
+            return apply_template();
           }
         });
       });
