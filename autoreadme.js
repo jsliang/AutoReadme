@@ -40,55 +40,61 @@ Licensed under GPL v2.
     return template_str;
   };
 
-  $(document).ready(function() {
-    var apply_template, convert_markdown_to_html;
-    convert_markdown_to_html = function(contents) {
-      var converter;
-      converter = new Showdown.converter();
-      return $("body").html(converter.makeHtml(contents));
-    };
-    apply_template = function() {
-      var env, h2_headings, templ_variables, tmpl;
-      env = new nunjucks.Environment();
-      tmpl = new nunjucks.Template(generate_template());
-      h2_headings = [];
-      $("h2").each(function() {
-        var h3_headings, heading, subheading_elements;
-        h3_headings = [];
-        subheading_elements = $(this).nextUntil("h2", "h3");
-        if (subheading_elements != null) {
-          subheading_elements.each(function() {
-            var subheading;
-            subheading = {
-              id: $(this).attr('id'),
-              text: $(this).text()
-            };
-            return h3_headings.push(subheading);
-          });
-        }
-        heading = {
-          id: $(this).attr('id'),
-          text: $(this).text(),
-          subheadings: h3_headings
+  $.fn.extend({
+    autoReadme: function() {
+      return this.each(function() {
+        var apply_template, container, convert_markdown_to_html;
+        container = $(this);
+        convert_markdown_to_html = function() {
+          var contents, converter;
+          converter = new Showdown.converter();
+          contents = container.html();
+          return container.html(converter.makeHtml(contents));
         };
-        return h2_headings.push(heading);
-      });
-      templ_variables = {
-        name: "SublimePelican",
-        headings: h2_headings,
-        contents: $("body").html()
-      };
-      return $("body").html(tmpl.render(templ_variables));
-    };
-    /*
-        $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", (contents) ->
-            $("body").html(converter.makeHtml(contents))
-            $(document).attr('title', $("h1:first").text())
-        )
-    */
+        apply_template = function() {
+          var env, h2_headings, templ_variables, tmpl;
+          env = new nunjucks.Environment();
+          tmpl = new nunjucks.Template(generate_template());
+          h2_headings = [];
+          $("h2").each(function() {
+            var h3_headings, heading, subheading_elements;
+            h3_headings = [];
+            subheading_elements = $(this).nextUntil("h2", "h3");
+            if (subheading_elements != null) {
+              subheading_elements.each(function() {
+                var subheading;
+                subheading = {
+                  id: $(this).attr('id'),
+                  text: $(this).text()
+                };
+                return h3_headings.push(subheading);
+              });
+            }
+            heading = {
+              id: $(this).attr('id'),
+              text: $(this).text(),
+              subheadings: h3_headings
+            };
+            return h2_headings.push(heading);
+          });
+          templ_variables = {
+            name: "SublimePelican",
+            headings: h2_headings,
+            contents: container.html()
+          };
+          return container.html(tmpl.render(templ_variables));
+        };
+        /*
+                    $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", (contents) ->
+                        $(this).html(converter.makeHtml(contents))
+                        $(document).attr('title', $("h1:first").text())
+                    )
+        */
 
-    convert_markdown_to_html($("body").html());
-    return apply_template();
+        convert_markdown_to_html();
+        return apply_template();
+      });
+    }
   });
 
 }).call(this);

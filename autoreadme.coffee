@@ -33,48 +33,52 @@ generate_template = () ->
 '
     return template_str
 
-$(document).ready () ->
+$.fn.extend
+    autoReadme: () ->
+        this.each ()->
+            container = $(this)
 
-    convert_markdown_to_html = ( contents ) ->
-        converter = new Showdown.converter()
-        $("body").html( converter.makeHtml(contents) )
+            convert_markdown_to_html = () ->
+                converter = new Showdown.converter()
+                contents = container.html()
+                container.html( converter.makeHtml(contents) )
 
-    apply_template = () ->
-        env = new nunjucks.Environment()
-        tmpl = new nunjucks.Template( generate_template() )
+            apply_template = () ->
+                env = new nunjucks.Environment()
+                tmpl = new nunjucks.Template( generate_template() )
 
-        h2_headings = []
-        $("h2").each () ->
-            h3_headings = []
+                h2_headings = []
+                $("h2").each () ->
+                    h3_headings = []
 
-            subheading_elements = $(this).nextUntil("h2", "h3")
-            if subheading_elements?
-                subheading_elements.each () ->
-                    subheading =
+                    subheading_elements = $(this).nextUntil("h2", "h3")
+                    if subheading_elements?
+                        subheading_elements.each () ->
+                            subheading =
+                                id: $(this).attr('id')
+                                text: $(this).text()
+                            h3_headings.push(subheading)
+
+                    heading =
                         id: $(this).attr('id')
                         text: $(this).text()
-                    h3_headings.push(subheading)
+                        subheadings: h3_headings
 
-            heading =
-                id: $(this).attr('id')
-                text: $(this).text()
-                subheadings: h3_headings
+                    h2_headings.push(heading)
 
-            h2_headings.push(heading)
+                templ_variables = {
+                    name: "SublimePelican",
+                    headings: h2_headings,
+                    contents: container.html()
+                }
+                container.html( tmpl.render(templ_variables) )
 
-        templ_variables = {
-            name: "SublimePelican",
-            headings: h2_headings,
-            contents: $("body").html()
-        }
-        $("body").html( tmpl.render(templ_variables) )
-
-    # fetch README.md file and turn the markdown to HTML
-    ###
-    $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", (contents) ->
-        $("body").html(converter.makeHtml(contents))
-        $(document).attr('title', $("h1:first").text())
-    )
-    ###
-    convert_markdown_to_html( $("body").html() )
-    apply_template()
+            # fetch README.md file and turn the markdown to HTML
+            ###
+            $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", (contents) ->
+                $(this).html(converter.makeHtml(contents))
+                $(document).attr('title', $("h1:first").text())
+            )
+            ###
+            convert_markdown_to_html()
+            apply_template()
