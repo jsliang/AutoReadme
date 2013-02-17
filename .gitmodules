@@ -4,3 +4,6 @@
 [submodule "nunjucks"]
 	path = nunjucks
 	url = https://github.com/jlongster/nunjucks.git
+[submodule "highlight"]
+	path = highlight
+	url = https://github.com/isagalaev/highlight.js
