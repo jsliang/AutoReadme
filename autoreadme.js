@@ -18,11 +18,15 @@ Licensed under GPL v2.
   $.fn.extend({
     autoReadme: function(options) {
       var template, template_str;
-      template = options.template;
+      if ((options != null) && (options.template != null)) {
+        template = options.template;
+      } else {
+        template = "default";
+      }
       template_str = $("#template #" + template).html();
       $("#template").hide();
       return this.each(function() {
-        var apply_template, container, convert_markdown_to_html, filename, repository, username;
+        var apply_template, container, convert_markdown_to_html, filename, makedoc, repository, username;
         container = $(this);
         convert_markdown_to_html = function() {
           var contents, converter;
@@ -64,23 +68,29 @@ Licensed under GPL v2.
           templ_variables = $.extend(templ_variables, options);
           return container.html(tmpl.render(templ_variables));
         };
-        username = options.username;
-        repository = options.repository;
-        filename = options.filename;
-        return $.ajax({
-          type: "GET",
-          url: "https://api.github.com/repos/" + username + "/" + repository + "/contents/" + filename,
-          dataType: "jsonp",
-          success: function(data) {
-            var decoded_content;
-            decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""));
-            decoded_content = decoded_content.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-            container.text(decoded_content);
-            convert_markdown_to_html();
-            $(document).attr('title', container.find("h1:first").text());
-            return apply_template();
-          }
-        });
+        makedoc = function() {
+          convert_markdown_to_html();
+          $(document).attr('title', container.find("h1:first").text());
+          return apply_template();
+        };
+        if ((options != null) && (options.username != null) && (options.repository != null) && (options.filename != null)) {
+          username = options.username;
+          repository = options.repository;
+          filename = options.filename;
+          return $.ajax({
+            type: "GET",
+            url: "https://api.github.com/repos/" + username + "/" + repository + "/contents/" + filename,
+            dataType: "jsonp",
+            success: function(data) {
+              var decoded_content;
+              decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""));
+              decoded_content = decoded_content.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+              return container.text(decoded_content);
+            }
+          }).done(makedoc);
+        } else {
+          return makedoc();
+        }
       });
     }
   });

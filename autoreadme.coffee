@@ -13,7 +13,11 @@ $ = jQuery
 $.fn.extend
     autoReadme: ( options ) ->
 
-        template = options.template
+        if options? and options.template?
+            template = options.template
+        else
+            template = "default"
+
         template_str = $("#template ##{template}").html()
         $("#template").hide()
 
@@ -56,20 +60,25 @@ $.fn.extend
                 templ_variables = $.extend(templ_variables, options)
                 container.html( tmpl.render(templ_variables) )
 
-            # fetch README.md file
-            username = options.username
-            repository = options.repository
-            filename = options.filename
-            $.ajax
-                type: "GET"
-                url: "https://api.github.com/repos/#{username}/#{repository}/contents/#{filename}"
-                dataType: "jsonp"
-                success: (data) ->
-                    decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""))
-                    decoded_content = decoded_content.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
-                    container.text(decoded_content)
+            makedoc = () ->
+                convert_markdown_to_html()
+                $(document).attr('title', container.find("h1:first").text())
+                apply_template()
 
-                    convert_markdown_to_html()
-                    $(document).attr('title', container.find("h1:first").text())
-                    apply_template()
+            # fetch README.md file
+            if options? and options.username? and options.repository? and options.filename?
+                username = options.username
+                repository = options.repository
+                filename = options.filename
+                $.ajax
+                    type: "GET"
+                    url: "https://api.github.com/repos/#{username}/#{repository}/contents/#{filename}"
+                    dataType: "jsonp"
+                    success: (data) ->
+                        decoded_content = window.atob(data.data.content.replace(/\n/g, "").replace(/\r/g, ""))
+                        decoded_content = decoded_content.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+                        container.text(decoded_content)
+                .done (makedoc)
+            else
+                makedoc()
 

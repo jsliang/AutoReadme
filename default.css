@@ -2,18 +2,18 @@
 @import url(http://fonts.googleapis.com/css?family=PT+Mono);
 @import url(http://fonts.googleapis.com/css?family=Roboto);
 /* Author: Jui-Shan Liang Author URI: http://jsliang.com */
-body { color: #333; font-size: 15px; font-family: Roboto, sans-serif; line-height: 1.5; margin: 0; padding: 2em; text-align: left; }
+body { color: #333; font-size: 15px; font-family: Roboto, sans-serif; line-height: 1.5; margin: 0; padding: 0; text-align: left; }
 
 a { color: #226ae9; }
 a:hover { color: #08c; }
 
-h1 { font-family: Overlock, serif; font-weight: bold; font-size: 3em; line-height: 3; }
+h1 { font-family: Overlock, serif; font-weight: bold; font-size: 2em; line-height: 3; }
 
-h2 { font-family: Overlock, serif; font-weight: bold; font-size: 2em; color: #113D8B; line-height: 2; }
+h2 { font-family: Overlock, serif; font-weight: bold; font-size: 1.5em; color: #113D8B; line-height: 2; }
 
-h3 { font-family: Overlock, serif; font-weight: bold; font-size: 1.5em; color: #000; line-height: 1.5; }
+h3 { font-family: Overlock, serif; font-weight: bold; font-size: 1.2em; color: #000; line-height: 1.5; }
 
-h4 { font-family: Overlock, serif; font-weight: bold; font-size: 1.2em; color: #000; }
+h4 { font-family: Overlock, serif; font-weight: bold; font-size: 1.1em; color: #000; }
 
 h5 { font-family: Overlock, serif; font-weight: bold; font-size: 15px; color: #777; }
 
@@ -25,14 +25,34 @@ strong, b { font-weight: bold; }
 
 em, i { font-style: italic; }
 
-ul { list-style: outside disc; margin: 1em 0 1.5em 1.5em; }
+ul, ol { margin: 0; padding-top: 0; padding-right: 0; padding-left: 2em; padding-bottom: 0; }
 
-ol { list-style: outside decimal; margin: 1em 0 1.5em 1.5em; }
+ul { list-style: outside disc; }
+
+ol { list-style: outside decimal; }
 
 blockquote { margin: 20px; font-style: normal; border: 0; }
 blockquote p { font-size: 15px; margin-bottom: 1em; font-weight: normal; }
 
-pre { font-family: "PT Mono", sans-serif; background-color: #eeeeee; padding: 3px; margin: 1em; overflow: auto; }
-pre code { border: 0; }
+pre, code { font-family: "PT Mono", sans-serif; font-size: 0.9em; }
 
-code { font-family: "PT Mono", sans-serif; font-size: 0.9em; border: 1px solid #c1ced8; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding-left: 0.3em; padding-right: 0.3em; margin-left: 0.3em; margin-right: 0.3em; }
+pre { background-color: #eeeeee; padding: 3px; margin: 1em; overflow: auto; }
+pre code { border: 0; font-size: 1em; }
+
+code { border: 1px solid #c1ced8; background-color: #f3f3f3; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding-left: 0.3em; padding-right: 0.3em; margin-left: 0.3em; margin-right: 0.3em; }
+
+#TOC { width: 200px; float: right; display: block; margin: 2em; padding: 2em; background-color: #f8f8f8; border: 1px solid #a8a7a8; }
+#TOC h1 { font-size: 1.5em; line-height: 1; margin-top: 0; border-bottom: 1px solid #d8d8d8; }
+#TOC ul { padding-left: 0; margin-left: 0; margin-top: 1em; margin-bottom: 1em; }
+#TOC ul > li { list-style: none; font-family: Overlock, sans-serif; font-weight: bold; font-size: 1.25em; line-height: 1; }
+#TOC ul > li a { text-decoration: none; color: #113D8B; }
+#TOC ul > li a:hover { color: #08c; }
+#TOC ul > li > ul > li { font-family: Overlock, sans-serif; font-weight: normal; font-size: 0.85em; margin-left: 1em; margin-bottom: 1em; }
+#TOC ul > li > ul > li a { color: #000; }
+#TOC ul > li > ul > li a:hover { color: #08c; }
+
+#content { margin-left: 2em; padding: 2em; }
+
+/* Landscape phones and down */
+@media (max-width: 600px) { #TOC { float: left; width: 100%; margin: 0; }
+  #content { margin: 0; } }
