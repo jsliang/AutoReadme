@@ -11,23 +11,84 @@ Licensed under GPL v2.
 
 
 (function() {
-  var $;
+  var $, generate_template;
 
   $ = jQuery;
 
+  generate_template = function() {
+    var template_str;
+    template_str = '\
+<div id="TOC">\
+    <h1>{{ name }}</h1>\
+    <ul>\
+    {% for heading in headings %}\
+    <li>\
+        <a href="#{{ heading.id }}">{{ heading.text }}</a>\
+        <ul>\
+        {% for subheading in heading.subheadings %}\
+        <li>\
+            <a href="#{{ subheading.id }}">{{ subheading.text }}</a>\
+        </li>\
+        {% endfor %}\
+        </ul>\
+    </li>\
+    {% endfor %}\
+    </ul>\
+</div>\
+<div id="content">{{ contents }}</div>\
+';
+    return template_str;
+  };
+
   $(document).ready(function() {
-    var converter, env, tmpl;
-    converter = new Showdown.converter();
-    env = new nunjucks.Environment();
-    tmpl = new nunjucks.Template('<p>DEFAULT!</p> {{ contents }}');
-    return $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", function(contents) {
-      var templ_variables;
+    var apply_template, convert_markdown_to_html;
+    convert_markdown_to_html = function(contents) {
+      var converter;
+      converter = new Showdown.converter();
+      return $("body").html(converter.makeHtml(contents));
+    };
+    apply_template = function() {
+      var env, h2_headings, templ_variables, tmpl;
+      env = new nunjucks.Environment();
+      tmpl = new nunjucks.Template(generate_template());
+      h2_headings = [];
+      $("h2").each(function() {
+        var h3_headings, heading, subheading_elements;
+        h3_headings = [];
+        subheading_elements = $(this).nextUntil("h2", "h3");
+        if (subheading_elements != null) {
+          subheading_elements.each(function() {
+            var subheading;
+            subheading = {
+              id: $(this).attr('id'),
+              text: $(this).text()
+            };
+            return h3_headings.push(subheading);
+          });
+        }
+        heading = {
+          id: $(this).attr('id'),
+          text: $(this).text(),
+          subheadings: h3_headings
+        };
+        return h2_headings.push(heading);
+      });
       templ_variables = {
-        contents: converter.makeHtml(contents)
+        name: "SublimePelican",
+        headings: h2_headings,
+        contents: $("body").html()
       };
-      $("body").html(tmpl.render(templ_variables));
-      return $(document).attr('title', $("h1:first").text());
-    });
+      return $("body").html(tmpl.render(templ_variables));
+    };
+    /*
+        $.getGithubFileByFilePath("jsliang", "sublime-pelican", "README.md", (contents) ->
+            $("body").html(converter.makeHtml(contents))
+            $(document).attr('title', $("h1:first").text())
+        )
+    */
+
+    convert_markdown_to_html($("body").html());
+    return apply_template();
   });
 
 }).call(this);
