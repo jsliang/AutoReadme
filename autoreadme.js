@@ -59,7 +59,13 @@ Licensed under GPL v2.
           var contents, converter;
           converter = new Showdown.converter();
           contents = container.html();
-          return container.html(converter.makeHtml(contents));
+          container.html(converter.makeHtml(contents));
+          return container.find("code").each(function() {
+            var code_str, new_code_str;
+            code_str = $(this).text();
+            new_code_str = code_str.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+            return $(this).text(new_code_str);
+          });
         };
         apply_template = function() {
           var env, h2_headings, templ_variables, tmpl;

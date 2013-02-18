@@ -54,6 +54,10 @@ $.fn.extend
         converter = new Showdown.converter()
         contents = container.html()
         container.html( converter.makeHtml(contents) )
+        container.find("code").each () ->
+          code_str = $(this).text()
+          new_code_str = code_str.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+          $(this).text(new_code_str)
 
       apply_template = () ->
         env = new nunjucks.Environment()
