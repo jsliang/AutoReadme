@@ -2,7 +2,7 @@
 
 /*
 AutoReadme v0.0.1
-http://jsliang.github.com/AutoReadme
+http://jsliang.com/AutoReadme
 
 Copyright (c) 2013, Jui-Shan Liang <jenny@jsliang.com>
 All rights reserved.
@@ -17,13 +17,40 @@ Licensed under GPL v2.
 
   $.fn.extend({
     autoReadme: function(options) {
-      var template, template_str;
+      var template, template_DOM, template_DOM_content_non_empty, template_DOM_exists_in_page, template_str;
       if ((options != null) && (options.template != null)) {
         template = options.template;
       } else {
         template = "default";
       }
-      template_str = $("#template #" + template).html();
+      template_DOM = $("#template #" + template);
+      template_DOM_exists_in_page = template_DOM.length > 0;
+      template_DOM_content_non_empty = $.trim(template_DOM.html()).length > 0;
+      if (template_DOM_exists_in_page && template_DOM_content_non_empty) {
+        template_str = $("#template #" + template).html();
+      } else {
+        template_str = '\
+<a href="http://github.com/{{ username }}/{{ repository }}">\
+  <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">\
+</a>\
+<div id="TOC">\
+  <h1>{{ name }}</h1>\
+  <ul>\
+    {% for heading in headings %}\
+    <li>\
+      <a href="#{{ heading.id }}">{{ heading.text }}</a>\
+      <ul>\
+        {% for subheading in heading.subheadings %}\
+        <li><a href="#{{ subheading.id }}">{{ subheading.text }}</a></li>\
+        {% endfor %}\
+      </ul>\
+    </li>\
+    {% endfor %}\
+  </ul>\
+</div>\
+<div id="content">{{ contents }}</div>\
+';
+      }
       $("#template").hide();
       return this.each(function() {
         var apply_template, container, convert_markdown_to_html, filename, makedoc, repository, username;
