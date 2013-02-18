@@ -103,7 +103,10 @@ Licensed under GPL v2.
             templ_variables.name = '';
           }
           templ_variables = $.extend(templ_variables, options);
-          return container.html(tmpl.render(templ_variables));
+          container.html(tmpl.render(templ_variables));
+          return $('pre code').each(function(i, e) {
+            return hljs.highlightBlock(e);
+          });
         };
         makedoc = function() {
           convert_markdown_to_html();

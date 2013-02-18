@@ -95,6 +95,10 @@ $.fn.extend
         templ_variables = $.extend(templ_variables, options)
         container.html( tmpl.render(templ_variables) )
 
+        # highlight.js
+        $('pre code').each (i, e) ->
+          hljs.highlightBlock(e)
+
       makedoc = () ->
         convert_markdown_to_html()
         $(document).attr('title', container.find("h1:first").text())
