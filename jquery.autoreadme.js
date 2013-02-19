@@ -30,26 +30,26 @@ Licensed under GPL v2.
         template_str = $("#template #" + template).html();
       } else {
         template_str = '\
-<a href="http://github.com/{{ username }}/{{ repository }}">\
-  <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">\
-</a>\
-<div id="TOC">\
-  <h1>{{ name }}</h1>\
-  <ul>\
-    {% for heading in headings %}\
-    <li>\
-      <a href="#{{ heading.id }}">{{ heading.text }}</a>\
-      <ul>\
-        {% for subheading in heading.subheadings %}\
-        <li><a href="#{{ subheading.id }}">{{ subheading.text }}</a></li>\
-        {% endfor %}\
-      </ul>\
-    </li>\
-    {% endfor %}\
-  </ul>\
-</div>\
-<div id="content">{{ contents }}</div>\
-';
+        <a href="http://github.com/{{ username }}/{{ repository }}">\
+          <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">\
+        </a>\
+        <div id="TOC">\
+          <h1>{{ name }}</h1>\
+          <ul>\
+            {% for heading in headings %}\
+            <li>\
+              <a href="#{{ heading.id }}">{{ heading.text }}</a>\
+              <ul>\
+                {% for subheading in heading.subheadings %}\
+                <li><a href="#{{ subheading.id }}">{{ subheading.text }}</a></li>\
+                {% endfor %}\
+              </ul>\
+            </li>\
+            {% endfor %}\
+          </ul>\
+        </div>\
+        <div id="content">{{ contents }}</div>\
+        ';
       }
       $("#template").hide();
       return this.each(function() {
