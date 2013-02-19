@@ -1,47 +1,40 @@
-AutoReadme
-==========
+# AutoReadme
 
-## Usage
+**AutoReadme** is an automatic document generator for GitHub projects whose READMEs are written in Markdown.
+Documents are always generated at client-side with the newest README file and can be easily hosted anywhere.
 
-Using AutoReadme is quick and simple. Simply create an `index.html` and fill in its content like below:
+
+## Quick Start
+
+1.  [Download AutoReadme](https://github.com/jsliang/AutoReadme/zipball/master) and extract it to anywhere you like.
+2.  Open `index.html` with a browser. When you see a generated README page of AutoReadme, congratulations! You're almost there!
+3.  Edit `index.html` and [customize the page](#customization) to fit your project.
+
+
+## Customization
+
+### Options for jquery.autoreadme.js
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/github.min.css">
-    <link rel="stylesheet" href="default.css">
-  </head>
-  <body>
-    <div id="container"></div>
-
-    <script src="http://code.jquery.com/jquery.min.js"></script>
-    <script src="showdown/src/showdown.js"></script>
-    <script src="nunjucks/browser/nunjucks-dev.js"></script>
-    <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
-    <script src="autoreadme.js"></script>
-    <script>
-    $(document).ready(function() {
-      $("#container").autoReadme( {
-        username: "jsliang",      // GitHub username
-        repository: "AutoReadme", // GitHub repository
-        filename: "README.md",    // filename of your README
-        name: "AutoReadme",       // repository name to show in the page title
-        template: "default"       // pick a template :P
-      } );
-    });
-    </script>
-  </body>
-</html>
+<script src="jquery.autoreadme.js"></script>
+<script>
+$(document).ready(function() {
+  $("#container").autoReadme( {
+    username: "jsliang",      // GitHub username
+    repository: "AutoReadme", // GitHub repository
+    filename: "README.md",    // filename of your README
+    name: "AutoReadme",       // (optional) repository name to show in the page title
+    template: "default"       // (optional) pick a template :P
+  } );
+});
+</script>
 ```
-With `$("#container").autoReadme(...)`, AutoReadme automatically fetches and parse the content of your `README.md` in default branch from GitHub via GitHub API, i.e. https://api.github.com/repos/jsliang/AutoReadme/contents/README.md in the above sample.
-AutoReadme then replace the content of the `$("#container")` element with the generated README.
-
 ### Tips for Better SEO
 
+(to be written)
+
 ### Custom Templates
+
+(to be written)
 
 ### Google Analytics
 

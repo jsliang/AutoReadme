@@ -4,24 +4,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoReadme</title>
-    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/github.min.css">
-    <link rel="stylesheet" href="default.css">
   </head>
   <body>
     <!-- container for generated README contents -->
     <div id="container">
-      AutoReadme is an automatic document generator for GitHub Projects with README written in Markdown.
-      Documents are always generated purely at client-side with the newest README file, no need to be rebuilt after git pushes and can be easily hosted anywhere.
+      AutoReadme is an automatic document generator for GitHub projects whose README are written in Markdown.
+      Documents are always generated at client-side with the newest README file and can be easily hosted anywhere.
     </div>
 
     <!-- BEGIN TEMPLATES -->
     <div id="template">
+      <!-- BEGIN template: default -->
       <div id="default">
-        <!-- BEGIN template: default -->
+        <!-- include CSS -->
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/github.min.css">
+        <link rel="stylesheet" href="default.css">
+
+        <!-- "Fork me on GitHub" Ribbon-->
         <a href="http://github.com/{{ username }}/{{ repository }}">
           <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
         </a>
-        <!-- table of content -->
+
+        <!-- BEGIN table of content -->
         <div id="TOC">
           <h1>{{ name }}</h1>
           <ul>
@@ -37,10 +41,12 @@
             {% endfor %}
           </ul>
         </div>
+        <!-- END table of content -->
+
         <!-- README contents -->
         <div id="content">{{ contents }}</div>
-        <!-- END template: default -->
       </div>
+      <!-- END template: default -->
     </div>
     <!-- END TEMPLATES -->
 
