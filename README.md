@@ -14,6 +14,7 @@ Documents are always generated at client-side with the newest README file and ca
 ## Customization
 
 ### Options for jquery.autoreadme.js
+
 ```html
 <script src="jquery.autoreadme.js"></script>
 <script>
@@ -39,6 +40,7 @@ $(document).ready(function() {
 ### Google Analytics
 
 Don't forget to add your Google Analytics code -- if you have one -- to `index.html`:
+
 ```html
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -65,7 +67,7 @@ Don't forget to add your Google Analytics code -- if you have one -- to `index.h
 
 ## License
 
-SublimePelican is licensed under the MIT license.
+AutoReadme is licensed under the MIT license.
 
 Copyright (c) 2013, Jui-Shan Liang &lt;jenny@jsliang.com&gt;
 
